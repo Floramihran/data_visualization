@@ -1,0 +1,67 @@
+library(dplyr)
+
+data <- read.csv("crime_data.csv")
+head(data, 5)
+
+missing_threshold <- nrow(data) * 0.5
+cols_to_drop <- names(which(colSums(is.na(data)) > missing_threshold))
+colSums(is.na(data)) 
+
+clean_data <- data %>% select(-all_of(cols_to_drop))
+
+glimpse(clean_data)
+clean_data <- clean_data %>%
+  mutate(
+    DATE.OCC = as.Date(DATE.OCC, format = "%m/%d/%Y"), 
+    Year = as.numeric(format(DATE.OCC, "%Y")),
+    Month = as.numeric(format(DATE.OCC, "%m")),
+    Day = as.numeric(format(DATE.OCC, "%d")),
+    Hour = as.numeric(substr(TIME.OCC, 1, 2))  
+  )
+
+burglary_2023 <- clean_data %>%
+  filter(Year == 2023, Crm.Cd.Desc == "BURGLARY")
+
+head(burglary_2023)
+
+crime_stats <- clean_data %>%
+  group_by(AREA.NAME) %>%
+  summarise(Total_Crimes = n(), Avg_Victim_Age = mean(Vict.Age, na.rm = TRUE)) %>%
+  arrange(desc(Total_Crimes))  # Sort by total crimes
+
+print(crime_stats)
+
+monthly_crimes <- clean_data %>%
+  group_by(Month) %>%
+  summarise(Total_Crimes = n())
+
+print(monthly_crimes)
+
+weapon_crimes <- clean_data %>%
+  filter(Weapon.Desc != "") %>%
+  summarise(Total_Weapon_Crimes = n())
+
+print(weapon_crimes)
+
+premis_crimes <- clean_data %>%
+  group_by(Premis.Desc) %>%
+  summarise(Total_Crimes = n()) %>%
+  arrange(desc(Total_Crimes))
+
+print(premis_crimes)
+
+clean_data <- clean_data %>%
+  mutate(
+    Severity_Score = case_when(
+      !is.na(Weapon.Desc) ~ 5,  
+      Crm.Cd.Desc == "BURGLARY" ~ 3,  
+      TRUE ~ 1  
+    )
+  )
+
+area_severity <- clean_data %>%
+  group_by(AREA.NAME) %>%
+  summarise(Total_Severity_Score = sum(Severity_Score, na.rm = TRUE)) %>%
+  arrange(desc(Total_Severity_Score))
+
+print(area_severity)
