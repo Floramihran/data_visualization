@@ -1,0 +1,84 @@
+---
+title: 'Part 4: Recreate the following graphs'
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-02-18"
+---
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggthemes)
+```
+
+```{r}
+lung_cancer_prediction_dataset<- "C:/Users/asus/Desktop/Data Visualization/Homeworks/HW2/lung_cancer_prediction_dataset.csv"
+global_air_pollution_dataset <- "C:/Users/asus/Desktop/Homework N2/global_air_pollution_dataset.csv"
+```
+```{r}
+data1<- read.csv(lung_cancer_prediction_dataset)
+data2<- read.csv(global_air_pollution_dataset)
+```
+
+
+```{r}
+colnames(data1)
+```
+```{r}
+colnames(data2)
+```
+```{r}
+agg_data1 <- data1 %>%
+  group_by(Country) %>%
+  summarize(Annual_Lung_Cancer_Deaths = sum(Annual_Lung_Cancer_Deaths, na.rm = TRUE))
+
+agg_data2 <- data2 %>%
+  group_by(Country) %>%
+  summarize(PM2.5_AQI_Value = mean(`PM2.5_AQI_Value`, na.rm = TRUE))
+```
+
+```{r}
+merged_data <- inner_join(data1, data2, by = "Country")
+```
+
+
+
+```{r}
+ggplot(merged_data, aes(x = PM2.5_AQI_Value, y = Annual_Lung_Cancer_Deaths, color = Country)) +
+  geom_point(size = 3) +
+  geom_text(aes(label = ifelse(Country %in% c("China", "India", "Japan"), Country, "")),
+            vjust = -0.5, size = 5, fontface = "bold") +
+  labs(title = "PM2.5 AQI vs. Annual Lung Cancer Deaths",
+       x = "PM2.5 AQI Value",
+       y = "Annual Lung Cancer Deaths") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(data1, aes(x = Smoking_Years, y = factor(Cancer_Stage), color = Gender, shape = Gender)) +
+  geom_jitter(alpha = 0.7) +
+  scale_color_manual(values = c("#5469f1", "#d554f1")) +
+  labs(title = "Lung Cancer Stage vs. Smoking Years",
+       subtitle = "Comparison by Gender",
+       x = "Years of Smoking",
+       y = "Cancer Stage") +
+  theme_minimal() +
+  facet_wrap(~ Gender)
+```
+
+```{r}
+ggplot(data, aes(x = PM2.5_AQI_Value, fill = Country)) +
+  geom_histogram(binwidth = 10, color = "black") +
+  scale_fill_viridis_d(option = "plasma") +
+  labs(title = "PM2.5 AQI Distribution Across Countries",
+       subtitle = "Comparison of Air Pollution Levels",
+       x = "PM2.5 AQI Value",
+       y = "Frequency") +
+  theme_minimal() +
+  facet_wrap(~ Country, scales = "free_y")
+```
+
+
+
+
+

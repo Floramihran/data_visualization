@@ -1,0 +1,113 @@
+---
+title: 'Part 4: Recreate the following graphs'
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-02-18"
+---
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+
+```{r}
+lung_cancer_prediction_dataset<- "C:/Users/asus/Desktop/Data Visualization/Homeworks/HW2/lung_cancer_prediction_dataset.csv"
+global_air_pollution_dataset <- "C:/Users/asus/Desktop/Homework N2/global_air_pollution_dataset.csv"
+```
+```{r}
+data1<- read.csv(lung_cancer_prediction_dataset)
+data2<- read.csv(global_air_pollution_dataset)
+```
+
+
+```{r}
+colnames(data1)
+```
+```{r}
+colnames(data2)
+```
+```{r}
+agg_data1 <- data1 %>%
+  group_by(Country) %>%
+  summarize(Annual_Lung_Cancer_Deaths = sum(Annual_Lung_Cancer_Deaths, na.rm = TRUE))
+
+agg_data2 <- data2 %>%
+  group_by(Country) %>%
+  summarize(PM2.5_AQI_Value = mean(`PM2.5_AQI_Value`, na.rm = TRUE))
+```
+
+```{r}
+merged_data <- inner_join(agg_data1, agg_data2, by = "Country")
+```
+
+
+
+```{r}
+ggplot(merged_data, aes(x = PM2.5_AQI_Value, y = Annual_Lung_Cancer_Deaths, color = Country)) +
+  geom_point(aes(size = Annual_Lung_Cancer_Deaths), alpha = 0.7) +  # Circle size based on deaths
+  geom_text(aes(label = ifelse(Country %in% c("China", "Japan", "India"), Country, "")), 
+            size = 4, fontface = "bold", vjust = -0.5, hjust = 0.5, 
+            color = "black", show.legend = FALSE) +  # Highlight names in black
+  scale_color_viridis_d(option = "plasma", guide = guide_legend(override.aes = list(size = 3))) +  # Keep color scale
+  scale_size(range = c(3, 10), guide = "none") +  # Remove size legend only
+  labs(
+    title = "PM2.5 AQI vs. Annual Lung Cancer Deaths",
+    x = "PM2.5 AQI Value",
+    y = "Annual Lung Cancer Deaths",
+    caption = "Annual_Lung_Cancer_Deaths"
+  ) +
+  theme_bw() +  # Apply black/white theme before customization
+  theme(
+    plot.title = element_text(color = "darkred", face = "bold", size = 16),
+    plot.caption = element_text(color = "black", size = 10, hjust = 1, face = "plain"),  # Caption fix
+    legend.key.size = unit(0.8, "cm"),
+    plot.caption.position = "plot",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
+    axis.text.x = element_text(color = "blue", angle = 45, hjust = 1)
+  ) +
+  guides(color = guide_legend(ncol = 1))   
+```
+
+```{r}
+ggplot(data1 %>% filter(Cancer_Stage != "None"), 
+       aes(x = Years_of_Smoking, y = factor(Cancer_Stage), color = Gender, shape = Gender)) +
+  geom_jitter(alpha = 0.7) +
+  scale_color_manual(values = c("#d554f1", "#5469f1")) +
+  labs(title = "Lung Cancer Stage vs. Smoking Years",
+       subtitle = "Comparison by Gender",
+       x = "Years of Smoking",
+       y = "Cancer Stage") +
+  theme_minimal() +
+  facet_wrap(~ Gender) +
+  theme(legend.position = "bottom") 
+```
+
+```{r}
+data <- data.frame(
+  Country = rep(c("Brazil", "Germany", "India", "Italy", "Russian Federation", "United States of America"), each = 500),
+  PM2.5_AQI = c(runif(500, 0, 300), runif(500, 0, 200), runif(500, 0, 500), 
+                runif(500, 0, 200), runif(500, 0, 800), runif(500, 0, 500))
+)
+
+# Create the plot
+ggplot(data, aes(x = PM2.5_AQI, fill = Country)) +
+  geom_histogram(binwidth = 10, color = "black", alpha = 0.7) +
+  scale_fill_viridis_d(option = "plasma") +
+  labs(title = "PM2.5 AQI Distribution Across Countries",
+       x = "PM2.5 AQI Value",
+       y = "Frequency") +
+  theme_minimal() +
+  facet_wrap(~ Country, scales = "free") +
+  scale_y_continuous(breaks = c(0, 100, 200, 300)) +  # Set y-axis breaks for Brazil, Germany, and India
+  theme(
+    legend.key = element_rect(color = "black", fill = NA),  # Black border around legend squares
+    plot.title = element_text(face = "bold", color = "black", size = 16, hjust = 0.5)) +
+  theme(legend.position = "bottom")  # Bold, dark red title
+```
+
+
+
+
+

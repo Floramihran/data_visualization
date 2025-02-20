@@ -1,0 +1,2 @@
+"0","data1<- read.csv(lung_cancer_prediction_dataset)"
+"0","data2<- read.csv(global_air_pollution_dataset)"

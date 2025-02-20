@@ -1,0 +1,8 @@
+"0","agg_data1 <- data1 %>%"
+"0","  group_by(Country) %>%"
+"0","  summarize(Annual_Lung_Cancer_Deaths = sum(Annual_Lung_Cancer_Deaths, na.rm = TRUE))"
+"0",""
+"0","# Aggregate data2"
+"0","agg_data2 <- data2 %>%"
+"0","  group_by(Country) %>%"
+"0","   summarize(PM2.5_AQI_Value = mean(`PM2.5_AQI_Value`, na.rm = TRUE))"

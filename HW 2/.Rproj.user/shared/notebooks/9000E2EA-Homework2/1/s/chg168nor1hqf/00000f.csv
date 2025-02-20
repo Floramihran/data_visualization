@@ -1,0 +1,4 @@
+"0","ggplot(data1, aes(x = Mortality_Rate)) +"
+"0","  geom_density(fill = ""red"", color = ""black"", alpha = 0.5) +"
+"0","  labs(title = ""Density Plot of Lung Cancer Mortality Rate"", x = ""Mortality Rate"", y = ""Density"") +"
+"0","  theme_minimal()"

@@ -1,0 +1,75 @@
+---
+title: 'Part 3: Use the datasets provided to create graphs'
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-02-16"
+---
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggthemes)
+```
+
+```{r}
+lung_cancer_prediction_dataset<- "C:/Users/asus/Desktop/Data Visualization/Homeworks/HW2/lung_cancer_prediction_dataset.csv"
+global_air_pollution_dataset <- "C:/Users/asus/Desktop/Homework N2/global_air_pollution_dataset.csv"
+
+```
+
+```{r}
+data1<- read.csv(lung_cancer_prediction_dataset)
+data2<- read.csv(global_air_pollution_dataset)
+```
+
+```{r}
+colnames(data1)
+```
+
+
+
+```{r}
+ggplot(data1, aes( y = Annual_Lung_Cancer_Deaths)) +
+  geom_boxplot(fill = "lightblue", color = "black") +
+  labs(title = "Box Plot of Lung Cancer Deaths Distribution", 
+        y = "Number of Deaths") +
+  theme_minimal() + theme_bw()
+```
+
+```{r}
+colnames(data2)
+```
+
+```{r}
+ggplot(data2, aes(x = PM2.5_AQI_Value)) +
+  geom_histogram(binwidth = 2, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Histogram of PM2.5 Values", x = "PM2.5", y = "Frequency") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(data1, aes(x = Mortality_Rate)) +
+  geom_density(fill = "red", color = "black", alpha = 0.5) +
+  labs(title = "Density Plot of Lung Cancer Mortality Rate", x = "Mortality Rate", y = "Density") +
+  theme_minimal()
+```
+
+```{r}
+set.seed(123)  
+normal_values <- rnorm(100)
+logistic_values <- rlogis(100)
+
+data <- data.frame(
+  normal = normal_values,
+  logistic = logistic_values
+)
+
+ggplot(data, aes(x = normal, y = logistic)) +
+  geom_point(color = "brown") + 
+  geom_line(color = "brown") +  
+  labs(title = "Scatter Plot with Line: Normal vs Logistic Distributions", 
+       x = "Normal Distribution", y = "Logistic Distribution") +
+  theme_solarized(light = FALSE) 
+```
+
+
