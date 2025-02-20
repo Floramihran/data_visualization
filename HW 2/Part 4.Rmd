@@ -92,19 +92,34 @@ data <- data.frame(
 )
 
 # Create the plot
-ggplot(data, aes(x = PM2.5_AQI, fill = Country)) +
+ggplot(data, aes(x = PM2.5_AQI_Value, fill = Country)) +
   geom_histogram(binwidth = 10, color = "black", alpha = 0.7) +
   scale_fill_viridis_d(option = "plasma") +
-  labs(title = "PM2.5 AQI Distribution Across Countries",
-       x = "PM2.5 AQI Value",
-       y = "Frequency") +
+  labs(
+    title = "PM2.5 AQI Distribution Across Countries",
+    subtitle = "Comparison of Air Pollution Levels",
+    x = "PM2.5 AQI Value",
+    y = "Frequency"
+  ) +
   theme_minimal() +
-  facet_wrap(~ Country, scales = "free") +
-  scale_y_continuous(breaks = c(0, 100, 200, 300)) +  # Set y-axis breaks for Brazil, Germany, and India
+  facet_wrap(~ Country, scales = "free_y") +
+  facetted_pos_scales(
+    y = list(
+      Country == "Brazil" ~ scale_y_continuous(breaks = seq(0, 300, 100), limits = c(0, 300)),
+      Country == "Germany" ~ scale_y_continuous(breaks = seq(0, 300, 100), limits = c(0, 300)),
+      Country == "India" ~ scale_y_continuous(breaks = seq(0, 300, 100), limits = c(0, 300)),
+      Country == "Italy" ~ scale_y_continuous(breaks = seq(0, 200, 50), limits = c(0, 200)),
+      Country == "Russian Federation" ~ scale_y_continuous(breaks = seq(0, 200, 100), limits = c(0, 200)),
+      Country == "United States of America" ~ scale_y_continuous(breaks = seq(0, 800, 200), limits = c(0, 800))
+    )
+  ) +
+  coord_cartesian(xlim = c(0, 500)) +
   theme(
-    legend.key = element_rect(color = "black", fill = NA),  # Black border around legend squares
-    plot.title = element_text(face = "bold", color = "black", size = 16, hjust = 0.5)) +
-  theme(legend.position = "bottom")  # Bold, dark red title
+    plot.title = element_text(face = "bold", size = 16, hjust = 0, margin = margin(b = 10)),
+    plot.subtitle = element_text(face = "italic", size = 12, hjust = 0, margin = margin(b = 20)),
+    legend.key = element_rect(color = "black", fill = NA),
+    legend.position = "bottom"
+  )
 ```
 
 
