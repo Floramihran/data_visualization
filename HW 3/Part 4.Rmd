@@ -1,0 +1,131 @@
+---
+title: "Part 4"
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-03-18"
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+mobiles_dataset<- "C:/Users/asus/Desktop/Homework 3/mobiles_dataset.csv"
+```
+
+```{r}
+data<- read.csv(mobiles_dataset)
+```
+
+```{r}
+head(data)
+```
+
+```{r}
+colnames(data)
+```
+
+```{r}
+data <- data %>%
+  mutate(
+    Price_PKR_USD = Launched.Price.Pakistan.PKR * 0.0036,
+    Price_INR_USD = Launched.Price.India.INR * 0.011,
+    Price_CNY_USD = Launched.Price.China.CNY * 0.14,
+    Price_AED_USD = Launched.Price.Dubai.AED * 0.27
+  )
+```
+
+```{r}
+data_summary <- data %>%
+  group_by(Model.Name) %>%
+  summarise(Average_Price = mean(Launched.Price.USA.USD, na.rm = TRUE)) %>%
+  arrange(desc(Average_Price))
+
+top_models <- data_summary %>% top_n(10, Average_Price)
+ggplot(top_models, aes(x = reorder(Model.Name, Average_Price), y = Average_Price, fill = Model.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Model Name",
+    y = "Average Price (USD)",
+    title = "Top 10 Mobile Phone Models by Average Price"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+ 
+```{r}
+data_summary <- data %>%
+  group_by(Model.Name) %>%
+  summarise(Average_Price = mean(Price_PKR_USD, na.rm = TRUE)) %>%
+  arrange(desc(Average_Price))
+
+top_models <- data_summary %>% top_n(10, Average_Price)
+ggplot(top_models, aes(x = reorder(Model.Name, Average_Price), y = Average_Price, fill = Model.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Model Name",
+    y = "Average Price (USD)",
+    title = "Top 10 Mobile Phone Models by Average Price"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+```{r}
+data_summary <- data %>%
+  group_by(Model.Name) %>%
+  summarise(Average_Price = mean(Price_INR_USD, na.rm = TRUE)) %>%
+  arrange(desc(Average_Price))
+
+top_models <- data_summary %>% top_n(10, Average_Price)
+ggplot(top_models, aes(x = reorder(Model.Name, Average_Price), y = Average_Price, fill = Model.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Model Name",
+    y = "Average Price (USD)",
+    title = "Top 10 Mobile Phone Models by Average Price"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+```{r}
+data_summary <- data %>%
+  group_by(Model.Name) %>%
+  summarise(Average_Price = mean(Price_CNY_USD, na.rm = TRUE)) %>%
+  arrange(desc(Average_Price))
+
+top_models <- data_summary %>% top_n(10, Average_Price)
+ggplot(top_models, aes(x = reorder(Model.Name, Average_Price), y = Average_Price, fill = Model.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Model Name",
+    y = "Average Price (USD)",
+    title = "Top 10 Mobile Phone Models by Average Price"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+```{r}
+data_summary <- data %>%
+  group_by(Model.Name) %>%
+  summarise(Average_Price = mean(Price_AED_USD, na.rm = TRUE)) %>%
+  arrange(desc(Average_Price))
+
+top_models <- data_summary %>% top_n(10, Average_Price)
+ggplot(top_models, aes(x = reorder(Model.Name, Average_Price), y = Average_Price, fill = Model.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Model Name",
+    y = "Average Price (USD)",
+    title = "Top 10 Mobile Phone Models by Average Price"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+```
+```{r}
+# We can observe differences in prices across various regions for different mobile models, 
+#indicating that the model has an impact on pricing.
+```
+
