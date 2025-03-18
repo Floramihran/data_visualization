@@ -1,0 +1,503 @@
+---
+title: 'Part 1+ 2'
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-03-14"
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+mobiles_dataset<- "C:/Users/asus/Desktop/Homework 3/mobiles_dataset.csv"
+```
+
+```{r}
+data<- read.csv(mobiles_dataset)
+```
+
+```{r}
+head(data)
+```
+
+```{r}
+colnames(data)
+```
+
+```{r}
+data <- data %>%
+  mutate(
+    Price_PKR_USD = Launched.Price.Pakistan.PKR * 0.0036,
+    Price_INR_USD = Launched.Price.India.INR * 0.011,
+    Price_CNY_USD = Launched.Price.China.CNY * 0.14,
+    Price_AED_USD = Launched.Price.Dubai.AED * 0.27
+  )
+
+```
+
+```{r}
+ggplot(data = data , aes(x = Battery.Capacity.mAh, y = Launched.Price.USA.USD)) +
+  geom_point() +
+  labs(
+    title = "Battery Capacity vs. Launched Price (USD)",
+    x = "Battery Capacity (mAh)",
+    y = "Launched Price (USD)"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(data = data, aes(x = Battery.Capacity.mAh, y = Price_PKR_USD)) +
+  geom_point() +
+  labs(
+    title = "Battery Capacity vs. Launched Price (USD)",
+    x = "Battery Capacity (mAh)",
+    y = "Launched Price (USD)"
+  ) +
+theme_minimal()
+```
+```{r}
+ggplot(data = data, aes(x = Battery.Capacity.mAh, y = Price_INR_USD)) +
+  geom_point() +
+  labs(
+    title = "Battery Capacity vs. Launched Price (USD)",
+    x = "Battery Capacity (mAh)",
+    y = "Launched Price (USD)"
+  ) +
+theme_minimal()
+```
+
+```{r}
+ggplot(data = data, aes(x = Battery.Capacity.mAh, y = Price_CNY_USD)) +
+  geom_point() +
+  labs(
+    title = "Battery Capacity vs. Launched Price (USD)",
+    x = "Battery Capacity (mAh)",
+    y = "Launched Price (USD)"
+  ) +
+theme_minimal()
+```
+
+```{r}
+ggplot(data = data, aes(x = Battery.Capacity.mAh, y = Price_AED_USD)) +
+  geom_point() +
+  labs(
+    title = "Battery Capacity vs. Launched Price (USD)",
+    x = "Battery Capacity (mAh)",
+    y = "Launched Price (USD)"
+  ) +
+theme_minimal()
+```
+
+```{r}
+data_summary_USA <- data %>%
+  group_by(RAM) %>%
+  summarise(Average_Price_USD = mean(Launched.Price.USA.USD, na.rm = TRUE))
+```
+
+```{r}
+  ggplot(data_summary_USA, aes(x = as.factor(RAM), y = Average_Price_USD, fill = as.factor(RAM))) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Price by RAM Size",
+    x = "RAM Size (GB)",
+    y = "Average Launched Price (USD)"
+  ) +
+  theme_minimal() 
+ 
+```
+
+```{r}
+data_summary_PKR <- data %>%
+  group_by(RAM) %>%
+  summarise(Average_Price_PKR_USD = mean(Price_PKR_USD, na.rm = TRUE))
+```
+
+```{r}
+  ggplot(data_summary_PKR, aes(x = as.factor(RAM), y = Average_Price_PKR_USD, fill = as.factor(RAM))) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Price by RAM Size",
+    x = "RAM Size (GB)",
+    y = "Average Launched Price (USD)"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+data_summary_INR <- data %>%
+  group_by(RAM) %>%
+  summarise(Average_Price_INR_USD = mean(Price_INR_USD, na.rm = TRUE))
+```
+
+```{r}
+  ggplot(data_summary_INR, aes(x = as.factor(RAM), y = Average_Price_INR_USD, fill = as.factor(RAM))) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Price by RAM Size",
+    x = "RAM Size (GB)",
+    y = "Average Launched Price (USD)"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+data_summary_CNY <- data %>%
+  group_by(RAM) %>%
+  summarise(Average_Price_CNY_USD = mean(Price_CNY_USD, na.rm = TRUE))
+```
+
+```{r}
+  ggplot(data_summary_CNY, aes(x = as.factor(RAM), y = Average_Price_CNY_USD, fill = as.factor(RAM))) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Price by RAM Size",
+    x = "RAM Size (GB)",
+    y = "Average Launched Price (USD)"
+  ) +
+  theme_minimal() 
+
+```
+```{r}
+data_summary_AED <- data %>%
+  group_by(RAM) %>%
+  summarise(Average_Price_AED_USD = mean(Price_AED_USD, na.rm = TRUE))
+```
+
+```{r}
+  ggplot(data_summary_AED, aes(x = as.factor(RAM), y = Average_Price_AED_USD, fill = as.factor(RAM))) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Price by RAM Size",
+    x = "RAM Size (GB)",
+    y = "Average Launched Price (USD)"
+  ) +
+  theme_minimal() 
+```
+
+```{r}
+ggplot(data, aes(x = Launched.Price.USA.USD, y = reorder(Company.Name, Launched.Price.USA.USD))) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    x = "Launched Price (USD)",
+    y = "Company Name",
+    title = "Smartphone Prices in USA (USD)"
+  ) +
+  theme_bw()
+```
+```{r}
+ggplot(data, aes(x = Price_PKR_USD, y = reorder(Company.Name, Price_PKR_USD))) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    x = "Launched Price (USD)",
+    y = "Company Name",
+    title = "Smartphone Prices in Pakistan (USD)"
+  ) +
+  theme_bw()
+```
+```{r}
+ggplot(data, aes(x = Price_INR_USD, y = reorder(Company.Name, Price_INR_USD ))) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    x = "Launched Price (USD)",
+    y = "Company Name",
+    title = "Smartphone Prices in India (USD)"
+  ) +
+  theme_bw()
+```
+```{r}
+ggplot(data, aes(x = Price_CNY_USD, y = reorder(Company.Name, Price_CNY_USD))) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    x = "Launched Price (USD)",
+    y = "Company Name",
+    title = "Smartphone Prices in China (USD)"
+  ) +
+  theme_bw()
+```
+```{r}
+ggplot(data, aes(x = Price_AED_USD, y = reorder(Company.Name, Price_AED_USD))) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    x = "Launched Price (USD)",
+    y = "Company Name",
+    title = "Smartphone Prices in Dubai (USD)"
+  ) +
+  theme_bw()
+```
+
+```{r}
+data <- data %>%
+  mutate(
+    Price_Segment_USA = case_when(
+            Launched.Price.USA.USD < 300 ~ "Budget",
+            Launched.Price.USA.USD >= 300 & Launched.Price.USA.USD <= 700 ~ "Mid-Range",
+            Launched.Price.USA.USD > 700 ~ "Premium"
+    )
+  )
+```
+
+```{r}
+segment_summary_USA <- data %>%
+  group_by(Company.Name, Price_Segment_USA ) %>%
+  summarise(Model_Count = n(), .groups = "drop")
+```
+
+```{r}
+ggplot(segment_summary_USA, aes(x =reorder(Company.Name, Model_Count), y = Model_Count)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Number of Models",
+    y = "Company Name",
+    title = "Model Distribution Across Segments in USA",
+    fill = "Segment"
+  ) +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+```
+
+```{r}
+data <- data %>%
+  mutate(
+    Price_Segment_PKR = case_when(
+      Price_PKR_USD < 300 ~ "Budget",
+      Price_PKR_USD >= 300 & Price_PKR_USD <= 700 ~ "Mid-Range",
+      Price_PKR_USD > 700 ~ "Premium"
+    )
+  )
+```
+
+```{r}
+segment_summary_PKR <- data %>%
+  group_by(Company.Name, Price_Segment_PKR) %>%
+  summarise(Model_Count = n(), .groups = "drop")
+```
+
+```{r}
+ggplot(segment_summary_PKR, aes(x =reorder(Company.Name, Model_Count), y = Model_Count)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Number of Models",
+    y = "Company Name",
+    title = "Model Distribution Across Segments in Pakistan",
+    fill = "Segment"
+  ) +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+```{r}
+data <- data %>%
+  mutate(
+    Price_Segment_INR = case_when(
+      Price_INR_USD < 300 ~ "Budget",
+      Price_INR_USD >= 300 & Price_INR_USD <= 700 ~ "Mid-Range",
+      Price_INR_USD > 700 ~ "Premium"
+    )
+  )
+```
+
+```{r}
+segment_summary_INR <- data %>%
+  group_by(Company.Name, Price_Segment_INR ) %>%
+  summarise(Model_Count = n(), .groups = "drop")
+```
+
+```{r}
+ggplot(segment_summary_INR, aes(x =reorder(Company.Name, Model_Count), y = Model_Count)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Number of Models",
+    y = "Company Name",
+    title = "Model Distribution Across Segments in India",
+    fill = "Segment"
+  ) +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+```{r}
+data <- data %>%
+  mutate(
+    Price_Segment_CNY = case_when(
+      Price_CNY_USD < 300 ~ "Budget",
+      Price_CNY_USD >= 300 & Price_CNY_USD <= 700 ~ "Mid-Range",
+      Price_CNY_USD > 700 ~ "Premium"
+    )
+  )
+```
+
+```{r}
+segment_summary_CNY <- data %>%
+  group_by(Company.Name, Price_Segment_CNY ) %>%
+  summarise(Model_Count = n(), .groups = "drop")
+```
+
+```{r}
+ggplot(segment_summary_CNY, aes(x =reorder(Company.Name, Model_Count), y = Model_Count)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Number of Models",
+    y = "Company Name",
+    title = "Model Distribution Across Segments in China",
+    fill = "Segment"
+  ) +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+```{r}
+data <- data %>%
+  mutate(
+    Price_Segment_AED = case_when(
+      Price_AED_USD < 300 ~ "Budget",
+      Price_AED_USD >= 300 & Price_AED_USD <= 700 ~ "Mid-Range",
+      Price_AED_USD > 700 ~ "Premium"
+    )
+  )
+```
+
+```{r}
+segment_summary_AED <- data %>%
+  group_by(Company.Name, Price_Segment_AED ) %>%
+  summarise(Model_Count = n(), .groups = "drop")
+```
+
+```{r}
+ggplot(segment_summary_AED, aes(x =reorder(Company.Name, Model_Count), y = Model_Count)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Number of Models",
+    y = "Company Name",
+    title = "Model Distribution Across Segments in Dubai",
+    fill = "Segment"
+  ) +
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+```{r}
+data_summary_Pakistan <- data %>%
+  group_by(Company.Name) %>%
+  summarize(Average_Price_PKR_USD = mean(Price_PKR_USD, na.rm = TRUE))
+
+ggplot(data_summary_Pakistan, aes(x = Average_Price_PKR_USD, y = reorder(Company.Name, Average_Price_PKR_USD), fill = Company.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Average Price (PKR)",
+    y = "Company Name",
+    title = "Average Smartphone Prices in Pakistan"
+  ) +
+  theme_bw()
+```
+
+```{r}
+data_summary_India <- data %>%
+  group_by(Company.Name) %>%
+  summarize(Average_Price_INR_USD = mean(Price_INR_USD, na.rm = TRUE))
+
+ggplot(data_summary_India, aes(x = Average_Price_INR_USD, y = reorder(Company.Name, Average_Price_INR_USD), fill = Company.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Average Price (INR)",
+    y = "Company Name",
+    title = "Average Smartphone Prices in India"
+  ) +
+  theme_bw()
+```
+```{r}
+data_summary_USA <- data %>%
+  group_by(Company.Name) %>%
+  summarize(Average_Price_USD = mean( Launched.Price.USA.USD , na.rm = TRUE))
+
+ggplot(data_summary_USA, aes(x = Average_Price_USD, y = reorder(Company.Name, Average_Price_USD), fill = Company.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Average Price (USA)",
+    y = "Company Name",
+    title = "Average Smartphone Prices in USA"
+  ) +
+  theme_bw()
+```
+
+```{r}
+data_summary_China <- data %>%
+  group_by(Company.Name) %>%
+  summarize(Average_Price_CNY_USD = mean(Price_CNY_USD, na.rm = TRUE))
+
+
+ggplot(data_summary_China, aes(x = Average_Price_CNY_USD, y = reorder(Company.Name, Average_Price_CNY_USD), fill = Company.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Average Price (INR)",
+    y = "Company Name",
+    title = "Average Smartphone Prices in India"
+  ) +
+  theme_bw()
+```
+
+
+```{r}
+data_summary_Dubai <- data %>%
+  group_by(Company.Name) %>%
+  summarize(Average_Price_AED_USD = mean(Price_AED_USD, na.rm = TRUE))
+
+ggplot(data_summary_Dubai, aes(x = Average_Price_AED_USD, y = reorder(Company.Name, Average_Price_AED_USD), fill = Company.Name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Average Price (AED)",
+    y = "Company Name",
+    title = "Average Smartphone Prices in dubai"
+  ) +
+  theme_bw()
+```
+
+```{r}
+
+average_prices_region <- data.frame(
+  Region = c("Pakistan", "India", "China", "USA", "Dubai"),
+  Average_Price = c(
+    mean(data$Price_PKR_USD, na.rm = TRUE),
+    mean(data$Price_INR_USD, na.rm = TRUE),
+    mean(data$Price_CNY_USD, na.rm = TRUE),
+    mean(data$Launched.Price.USA.USD, na.rm = TRUE),
+    mean(data$Price_AED_USD, na.rm = TRUE)
+  )
+)
+```
+
+```{r}
+ggplot(average_prices_region, aes(x = reorder(Region, Average_Price), y = Average_Price, fill = Region)) +
+  geom_bar(stat = "identity") +
+  labs(
+    x = "Region",
+    y = "Average Price (USD)",
+    title = "Average Smartphone Prices Per Region"
+  ) +
+  theme_bw()
+```
+
+```{r}
+market_share <- data %>%
+  group_by(Company.Name) %>%
+  summarize(Total_Models = n()) %>%
+  mutate(Percentage = Total_Models / sum(Total_Models) * 100)
+
+ggplot(market_share, aes(x = "", y = Percentage, fill = Company.Name)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y") +
+  labs(
+    title = "Market Share of Smartphone Brands",
+    fill = "Brand"
+  ) +
+  theme_void()
+```
+
