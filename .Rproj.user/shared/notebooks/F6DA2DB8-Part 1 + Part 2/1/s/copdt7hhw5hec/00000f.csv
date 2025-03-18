@@ -1,0 +1,8 @@
+"0","ggplot(average_prices_region, aes(x = reorder(Region, Average_Price), y = Average_Price, fill = Region)) +"
+"0","  geom_bar(stat = ""identity"") +"
+"0","  labs("
+"0","    x = ""Region"","
+"0","    y = ""Average Price (USD)"","
+"0","    title = ""Average Smartphone Prices Per Region"""
+"0","  ) +"
+"0","  theme_bw()"

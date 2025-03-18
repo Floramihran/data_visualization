@@ -1,0 +1,3 @@
+"0","data_summary_USA <- data %>%"
+"0","  group_by(RAM) %>%"
+"0","  summarise(Average_Price_USD = mean(Launched.Price.USA.USD, na.rm = TRUE))"

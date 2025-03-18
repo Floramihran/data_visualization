@@ -1,0 +1,3 @@
+"0","segment_summary_USA <- data %>%"
+"0","  group_by(Company.Name, Price_Segment_USA ) %>%"
+"0","  summarise(Model_Count = n(), .groups = ""drop"")"

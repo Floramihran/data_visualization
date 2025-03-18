@@ -1,0 +1,8 @@
+"0","  ggplot(data_summary_AED, aes(x = as.factor(RAM), y = Average_Price_AED_USD, fill = as.factor(RAM))) +"
+"0","  geom_bar(stat = ""identity"") +"
+"0","  labs("
+"0","    title = ""Average Price by RAM Size"","
+"0","    x = ""RAM Size (GB)"","
+"0","    y = ""Average Launched Price (USD)"""
+"0","  ) +"
+"0","  theme_minimal() "

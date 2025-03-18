@@ -1,0 +1,8 @@
+"0","ggplot(data, aes(x = Price_CNY_USD, y = reorder(Company.Name, Price_CNY_USD))) +"
+"0","  geom_bar(stat = ""identity"", fill = ""steelblue"") +"
+"0","  labs("
+"0","    x = ""Launched Price (USD)"","
+"0","    y = ""Company Name"","
+"0","    title = ""Smartphone Prices in China (USD)"""
+"0","  ) +"
+"0","  theme_bw()"

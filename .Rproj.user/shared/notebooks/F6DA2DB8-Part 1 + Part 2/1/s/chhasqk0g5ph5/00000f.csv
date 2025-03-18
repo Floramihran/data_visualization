@@ -1,0 +1,3 @@
+"0","data_summary_INR <- data %>%"
+"0","  group_by(RAM) %>%"
+"0","  summarise(Average_Price_INR_USD = mean(Price_INR_USD, na.rm = TRUE))"

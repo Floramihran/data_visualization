@@ -1,0 +1,3 @@
+"0","data_summary_CNY <- data %>%"
+"0","  group_by(RAM) %>%"
+"0","  summarise(Average_Price_CNY_USD = mean(Price_CNY_USD, na.rm = TRUE))"

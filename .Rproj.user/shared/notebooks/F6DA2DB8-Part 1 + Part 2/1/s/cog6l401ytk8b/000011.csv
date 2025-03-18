@@ -1,0 +1,8 @@
+"0","ggplot(data = data, aes(x = Battery.Capacity.mAh, y = Price_INR_USD)) +"
+"0","  geom_point() +"
+"0","  labs("
+"0","    title = ""Battery Capacity vs. Launched Price (USD)"","
+"0","    x = ""Battery Capacity (mAh)"","
+"0","    y = ""Launched Price (USD)"""
+"0","  ) +"
+"0","theme_minimal()"

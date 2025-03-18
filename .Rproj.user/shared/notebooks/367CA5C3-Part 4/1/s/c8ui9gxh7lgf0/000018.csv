@@ -1,0 +1,7 @@
+"0","data <- data %>%"
+"0","  mutate("
+"0","    Price_PKR_USD = Launched.Price.Pakistan.PKR * 0.0036,"
+"0","    Price_INR_USD = Launched.Price.India.INR * 0.011,"
+"0","    Price_CNY_USD = Launched.Price.China.CNY * 0.14,"
+"0","    Price_AED_USD = Launched.Price.Dubai.AED * 0.27"
+"0","  )"
